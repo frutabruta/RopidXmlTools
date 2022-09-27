@@ -100,13 +100,6 @@ void MainWindow::vypisZastavky(QVector<Zastavka> seznamZastavek)
 }
 
 
-
-
-
-
-
-
-
 void MainWindow::slotVypisChybu(QString vstup)
 {
      qDebug() <<  Q_FUNC_INFO;

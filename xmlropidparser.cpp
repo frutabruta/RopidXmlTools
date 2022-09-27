@@ -20,11 +20,13 @@ int XmlRopidParser::databazeStart(QString adresaServeru)
 
 void XmlRopidParser::otevriSoubor(QString cesta)
 {
-    qDebug()<<"predOtevrenimSouboru";
+    qDebug() <<  Q_FUNC_INFO;
     QDomDocument doc("mydocument");
     // QFile file("xml_zdroje/XML_Zlicin_20200702_20200705.xml");
-
+    qDebug()<<"p1";
     QFile file(cesta);
+    qDebug()<<"p2";
+    //bum
 
     if (!file.open(QIODevice::ReadOnly))
     {
@@ -32,6 +34,35 @@ void XmlRopidParser::otevriSoubor(QString cesta)
         qDebug()<<"fail1";
         return;
     }
+    qDebug()<<"p3";
+
+    ///
+/*
+    QXmlStreamReader reader(&file);
+    QTextStream errorStream(stderr);
+
+    reader.readElementText(QXmlStreamReader::IncludeChildElements);
+    while (!reader.atEnd()) {
+
+        auto currentToken = reader.tokenString();
+
+       QXmlStreamAttributes atributy=reader.attributes();
+       foreach(QXmlStreamAttribute atribut,atributy)
+       {
+           qDebug()<<"atribut "<<atribut.name()<<" "<<atribut.value();
+       }
+
+
+        qDebug() << currentToken<<" "<<reader.name()<<" ";
+
+        reader.readNext();
+    }
+
+
+*/
+
+    ///
+
     if (!doc.setContent(&file))
     {
         emit odesliChybovouHlasku("soubor se nepovedlo otevrit2");
@@ -39,7 +70,9 @@ void XmlRopidParser::otevriSoubor(QString cesta)
         file.close();
         return;
     }
+    qDebug()<<"p4";
     file.close();
+    qDebug()<<"p5";
     qDebug()<<"uspech";
     QDomElement koren=doc.firstChildElement();
 
@@ -101,7 +134,7 @@ void XmlRopidParser::otevriSoubor(QString cesta)
 
 int XmlRopidParser::vlozPlatnost(QDomElement koren, QDate &plOd, QDate &plDo)
 {
-    qDebug()<<"XmlRopidParser::vlozPlatnost";
+    qDebug() <<  Q_FUNC_INFO;
 
 
     plOd=QDate::fromString(koren.attribute("od"),Qt::ISODate);
@@ -153,7 +186,7 @@ int XmlRopidParser::vlozDd(QDomElement koren)
 
 int XmlRopidParser::vlozCh(QDomElement koren)
 {
-    qDebug()<<"XmlRopidParser::vlozCh";
+    qDebug() <<  Q_FUNC_INFO;
     QString nazevElementu="ch";
     QDomNodeList m=koren.elementsByTagName(nazevElementu);
     int pocetPrvku=m.count();
@@ -178,7 +211,7 @@ int XmlRopidParser::vlozCh(QDomElement koren)
 
 int XmlRopidParser::vlozIds(QDomElement koren)
 {
-    qDebug()<<"XmlRopidParser::vlozIds";
+    qDebug() <<  Q_FUNC_INFO;
     QString nazevElementu="ids";
     QDomNodeList m=koren.elementsByTagName(nazevElementu);
     int pocetPrvku=m.count();
@@ -204,7 +237,7 @@ int XmlRopidParser::vlozIds(QDomElement koren)
 
 int XmlRopidParser::vlozK(QDomElement koren)
 {
-    qDebug()<<"XmlRopidParser::vlozK";
+    qDebug() <<  Q_FUNC_INFO;
     QString nazevElementu="k";
     QDomNodeList m=koren.elementsByTagName(nazevElementu);
     int pocetPrvku=m.count();
@@ -228,7 +261,7 @@ int XmlRopidParser::vlozK(QDomElement koren)
 
 int XmlRopidParser::vlozM(QDomElement koren)
 {
-    qDebug()<<"XmlRopidParser::vlozM";
+    qDebug() <<  Q_FUNC_INFO;
     QString nazevElementu="m";
     QDomNodeList m=koren.elementsByTagName(nazevElementu);
     int pocetPrvku=m.count();
@@ -254,7 +287,7 @@ int XmlRopidParser::vlozM(QDomElement koren)
 
 int XmlRopidParser::vlozTv(QDomElement koren)
 {
-    qDebug()<<"XmlRopidParser::vlozTv";
+    qDebug() <<  Q_FUNC_INFO;
     QDomNodeList m=koren.elementsByTagName("tv");
     int pocetPrvku=m.count();
     qDebug()<<"pocet prvku Tv2 je "<<pocetPrvku;
@@ -277,7 +310,7 @@ int XmlRopidParser::vlozTv(QDomElement koren)
 
 int XmlRopidParser::vlozO(QDomElement koren)
 {
-    qDebug()<<"XmlRopidParser::vlozO";
+    qDebug() <<  Q_FUNC_INFO;
     QDomNodeList m=koren.elementsByTagName("o");
     int pocetPrvku=m.count();
     qDebug()<<"pocet prvku O je "<<pocetPrvku;
@@ -305,7 +338,7 @@ int XmlRopidParser::vlozO(QDomElement koren)
 
 int XmlRopidParser::vlozPo(QDomElement koren)
 {
-    qDebug()<<"XmlRopidParser::vlozPo";
+    qDebug() <<  Q_FUNC_INFO;
     QString nazevElementu="po";
     QDomNodeList m=koren.elementsByTagName(nazevElementu);
     int pocetPrvku=m.count();
@@ -345,7 +378,7 @@ int XmlRopidParser::vlozPo(QDomElement koren)
 
 int XmlRopidParser::vlozR(QDomElement koren)
 {
-    qDebug()<<"XmlRopidParser::vlozR";
+    qDebug() <<  Q_FUNC_INFO;
     QString nazevElementu="r";
     QDomNodeList m=koren.elementsByTagName(nazevElementu);
     int pocetPrvku=m.count();
@@ -368,7 +401,7 @@ int XmlRopidParser::vlozR(QDomElement koren)
 
 int XmlRopidParser::vlozTy(QDomElement koren)
 {
-    qDebug()<<"XmlRopidParser::vlozTy";
+    qDebug() <<  Q_FUNC_INFO;
     QString nazevElementu="ty";
     QDomNodeList m=koren.elementsByTagName(nazevElementu);
     int pocetPrvku=m.count();
@@ -396,7 +429,7 @@ int XmlRopidParser::vlozTy(QDomElement koren)
 
 int XmlRopidParser::vlozSpPo(QDomElement koren)
 {
-    qDebug()<<"XmlRopidParser::vlozSpPo";
+    qDebug() <<  Q_FUNC_INFO;
     QDomElement element = koren;
 
 
@@ -438,7 +471,7 @@ int XmlRopidParser::vlozSpPo(QDomElement koren)
 
 QVector<int> XmlRopidParser::seznamDlouhychSpoju(QDomNodeList &dlouheSpoje)
 {
-    qDebug()<<"XmlRopidParser::seznamDlouhychSpoju";
+    qDebug() <<  Q_FUNC_INFO;
     QVector<int> navazujiciSpoje;
 
     for(int i=0;i<dlouheSpoje.length();i++)
@@ -522,7 +555,7 @@ QString XmlRopidParser::slozInsert(QString nazevTabulky, QVector<navrat> seznam)
 int XmlRopidParser::vlozL(QDomElement koren)
 {
 
-    qDebug()<<"zacatekImportuL";
+    qDebug() <<  Q_FUNC_INFO;
     QDomNodeList m=koren.elementsByTagName("l");
     int pocetPrvku=m.count();
     qDebug()<<"pocet prvku L je "<<pocetPrvku;
@@ -554,7 +587,7 @@ int XmlRopidParser::vlozL(QDomElement koren)
 
 int XmlRopidParser::vlozD(QDomElement koren)
 {
-    qDebug()<<"zacatekImportuD";
+    qDebug() <<  Q_FUNC_INFO;
     QDomNodeList m=koren.elementsByTagName("d");
     int pocetPrvku=m.count();
     qDebug()<<"pocet prvku D je "<<pocetPrvku;
@@ -587,8 +620,7 @@ int XmlRopidParser::vlozD(QDomElement koren)
 
 int XmlRopidParser::vlozP(QDomElement koren)
 {
-    qDebug()<<"vlozP";
-    qDebug()<<"zacatekImportuP";
+    qDebug() <<  Q_FUNC_INFO;
     QDomNodeList m=koren.elementsByTagName("p");
     int pocetPrvku=m.count();
     qDebug()<<"pocet prvku P je "<<pocetPrvku;
@@ -620,7 +652,7 @@ int XmlRopidParser::vlozP(QDomElement koren)
 
 int XmlRopidParser::vlozZ(QDomElement koren)
 {
-    qDebug()<<"zacatekImportuZ";
+    qDebug() <<  Q_FUNC_INFO;
     QDomNodeList m=koren.elementsByTagName("z");
     int pocetPrvku=m.count();
     qDebug()<<"pocet prvku Z je "<<pocetPrvku;
@@ -672,7 +704,7 @@ int XmlRopidParser::vlozZ(QDomElement koren)
 
 int XmlRopidParser::vlozS(QDomElement koren)
 {
-    qDebug()<<"zacatekImportuS";
+    qDebug() <<  Q_FUNC_INFO;
     QDomNodeList m=koren.elementsByTagName("s");
     int pocetPrvku=m.count();
     qDebug()<<"pocet prvku S je "<<pocetPrvku;
@@ -713,7 +745,7 @@ int XmlRopidParser::vlozS(QDomElement koren)
 
 int XmlRopidParser::vlozT(QDomElement koren)
 {
-    qDebug()<<"zacatekImportuT";
+    qDebug() <<  Q_FUNC_INFO;
     QDomNodeList m=koren.elementsByTagName("t");
     int pocetPrvku=m.count();
     qDebug()<<"pocet prvku T je "<<pocetPrvku;
@@ -752,7 +784,7 @@ int XmlRopidParser::vlozT(QDomElement koren)
 
 int XmlRopidParser::vlozX(QDomElement koren)
 {
-    qDebug()<<"zacatekImportuX";
+    qDebug() <<  Q_FUNC_INFO;
     QDomNodeList m=koren.elementsByTagName("x");
     int pocetPrvku=m.count();
     qDebug()<<"pocet prvku X je "<<pocetPrvku;
@@ -797,7 +829,7 @@ int XmlRopidParser::vlozX(QDomElement koren)
 
 int XmlRopidParser::truncateTable(QString tabulka)
 {
-
+    qDebug() <<  Q_FUNC_INFO;
     QString queryString = ("DELETE FROM ");
     queryString+=tabulka;
     qDebug().noquote()<<queryString;
@@ -808,6 +840,7 @@ int XmlRopidParser::truncateTable(QString tabulka)
 
 int XmlRopidParser::truncateAll()
 {
+    qDebug() <<  Q_FUNC_INFO;
     ropidSQL.pripoj();
 
     //  truncateTable("``");
