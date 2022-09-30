@@ -25,6 +25,8 @@ private slots:
 
     void on_pushButton_navazZast_clicked();
 
+    void on_pushButton_nacestneStart_clicked();
+
 private:
     Ui::MainWindow *ui;
     SqlPraceRopid sqlPraceRopid;
@@ -38,6 +40,8 @@ private:
     void vsechnyConnecty();
 
 
+
     void vypisZastavky(QVector<Zastavka> seznamZastavek);
+    void vypisSpoje(QVector<QMap<QString,QString>> spoje);
 };
 #endif // MAINWINDOW_H

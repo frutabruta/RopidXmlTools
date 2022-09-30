@@ -387,9 +387,9 @@ int SqlPraceRopid::stahniSeznamCelySpojTurnus(QVector<Spoj> &seznamSpoju ,int in
 
 
             aktLinka.kli=query.value(query.record().indexOf("l.kli")).toInt();
-          //  qDebug()<<"nacitam kategorii linky"<<aktLinka.kli;
+            //  qDebug()<<"nacitam kategorii linky"<<aktLinka.kli;
 
-           // XmlGenerator::ddDoVehicleMode(dd,);
+            // XmlGenerator::ddDoVehicleMode(dd,);
 
 
             if(  query.value(query.record().indexOf("x.t")).toString() =="Majak")
@@ -1183,7 +1183,7 @@ int SqlPraceRopid::stahniZastavkyNavaznySpoj(QVector<Zastavka> &docasnySeznamZas
 
             qDebug()<<"poradi Vysledku SQL dotazu "<<QString::number(pocetZastavek);
 
-           // z.n, z.cis, z.ois, z.u, z.z
+            // z.n, z.cis, z.ois, z.u, z.z
 
             aktZast.StopName=query.value( query.record().indexOf("z.n")).toString();
 
@@ -1210,5 +1210,80 @@ int SqlPraceRopid::stahniZastavkyNavaznySpoj(QVector<Zastavka> &docasnySeznamZas
 
     return 1;
 }
+
+
+
+int SqlPraceRopid::stahniSeznamSpojuBezNacestnych(QVector<QMap<QString,QString>> &spoje)
+{
+    qDebug() <<  Q_FUNC_INFO;
+
+    spoje.clear();
+
+    this->otevriDB();
+
+    QString queryString2="";
+
+    queryString2+="SELECT s.s, s.l, s.p, s.c,  vyber.pocet, vyber.nacestne ";
+    queryString2+="FROM s ";
+    queryString2+="LEFT JOIN ( SELECT xalias.s_id, SUM(xalias.na) AS nacestne, COUNT(*) AS pocet FROM x AS xalias GROUP BY xalias.s_id ) ";
+    queryString2+="AS vyber ON s.s=vyber.s_id ";
+    queryString2+="WHERE pocet>5 AND nacestne=0 ;";
+
+
+
+    QSqlQuery query;
+    query.exec(queryString2);
+
+    qDebug()<<"lasterror"<<  query.lastError();
+
+    int pocetZastavek=0;
+    qDebug().noquote()<<queryString2;
+
+    int citacD=0;
+
+    while (query.next())
+    {
+        citacD++;
+
+        if (1)//(query.value(0).toString()!="")
+        {
+
+              QMap<QString,QString> aktSpoj;
+
+            qDebug()<<"poradi Vysledku SQL dotazu "<<QString::number(citacD);
+
+            // s.s, s.l, s.p, s.c,  vyber.pocet, vyber.nacestne
+
+         //   qDebug()<<"odpoved: "<<query.record();
+
+            aktSpoj["s"]=query.value( query.record().indexOf("s.s")).toString();
+            aktSpoj["l"]=query.value( query.record().indexOf("s.l")).toString();
+            aktSpoj["p"]=query.value( query.record().indexOf("s.p")).toString();
+            aktSpoj["c"]=query.value( query.record().indexOf("s.c")).toString();
+
+           aktSpoj["pocet"] =QString::number(query.value(query.record().indexOf("pocet")).toInt() );
+           aktSpoj["nacestne"]=QString::number(query.value( query.record().indexOf("nacestne")).toInt());
+
+            spoje.push_back(aktSpoj);
+
+         qDebug()<<" "<<aktSpoj["s"]<<" "<<aktSpoj["l"]<<" "<<aktSpoj["pocet"]<<" "<<aktSpoj["nacestne"];
+        }
+
+//  qDebug()<<"lasterror"<<  query.lastError();
+    }
+
+    pocetZastavek=spoje.length();
+    this->zavriDB();
+    if (pocetZastavek ==0)
+    {
+        return 0;
+    }
+
+
+    return 1;
+}
+
+
+
 
 

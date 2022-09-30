@@ -12,8 +12,10 @@
 #include "VDV301struktury/spoj.h"
 #include "VDV301struktury/pasmo.h"
 #include "VDV301struktury/zastavkacil.h"
-//#include "VDV301struktury/trip.h"
+
 #include "VDV301struktury/obeh.h"
+
+
 
 
 
@@ -25,6 +27,16 @@ public:
     QSqlDatabase mojeDatabaze;
     SqlPraceRopid();
     bool vysledek;
+
+    struct VysledekKontrolaNacestnych
+    {
+        QString cisloSpoje="";
+        QString cisloLinky="";
+        QString cisloPoradi="";
+        QString cisloSpojeRopid="";
+        int pocetZastavek=0;
+        int pocetNacestnych=0;
+    };
 
 
 
@@ -63,6 +75,7 @@ public:
     QVector<Pasmo> pasmoStringDoVectoru(QString vstup, QString system, QString tl);
 
     int stahniZastavkyNavaznySpoj(QVector<Zastavka> &docasnySeznamZastavek);
+    int stahniSeznamSpojuBezNacestnych(QVector<QMap<QString, QString> > &spoje);
 signals:
     void odesliChybovouHlasku(QString chybovaHlaska);
 private:

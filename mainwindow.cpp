@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "sqlpraceropid.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -99,6 +100,49 @@ void MainWindow::vypisZastavky(QVector<Zastavka> seznamZastavek)
         ui->tableWidget_zastavkyNavazujici->resizeColumnsToContents();
 }
 
+void MainWindow::vypisSpoje(  QVector<QMap<QString,QString>> spoje)
+{
+    ui->tableWidget_nacestne->setRowCount(0);
+
+
+
+    qDebug()<<"Seznam zastavek na hranici navazneho spoje:";
+    for (int i=0;i<spoje.count();i++)
+    {
+        qint32 row;
+        QMap<QString,QString> spoj=spoje.at(i);
+
+
+        row = ui->tableWidget_zastavkyNavazujici->rowCount();
+        ui->tableWidget_nacestne->insertRow(row);
+
+         QTableWidgetItem *cell;
+
+        cell = new QTableWidgetItem(spoj["s"] );
+        ui->tableWidget_nacestne->setItem(row, 0, cell);
+
+        cell = new QTableWidgetItem(spoj["l"] );
+        ui->tableWidget_nacestne->setItem(row, 1, cell);
+
+        cell = new QTableWidgetItem(spoj["p"] );
+        ui->tableWidget_nacestne->setItem(row, 2, cell);
+
+        cell = new QTableWidgetItem(spoj["c"] );
+        ui->tableWidget_nacestne->setItem(row, 3, cell);
+
+        cell = new QTableWidgetItem(spoj["pocet"] );
+        ui->tableWidget_nacestne->setItem(row, 4, cell);
+
+        cell = new QTableWidgetItem(spoj["nacestne"] );
+        ui->tableWidget_nacestne->setItem(row, 5, cell);
+
+
+
+      //  slotVypisChybu(zastavka.StopName+" cis:"+QString::number(zastavka.cisloCis)+" ois:"+QString::number(zastavka.cisloOis)+" u:"+QString::number(zastavka.cisloU)+" u:"+ QString::number(zastavka.cisloZ));
+    }
+        ui->tableWidget_zastavkyNavazujici->resizeColumnsToContents();
+}
+
 
 void MainWindow::slotVypisChybu(QString vstup)
 {
@@ -112,5 +156,15 @@ void MainWindow::on_pushButton_navazZast_clicked()
     sqlPraceRopid.pripoj();
     sqlPraceRopid.stahniZastavkyNavaznySpoj(seznamZastavek);
     vypisZastavky(seznamZastavek);
+}
+
+
+void MainWindow::on_pushButton_nacestneStart_clicked()
+{
+    QVector<QMap<QString,QString>> spoje;
+    sqlPraceRopid.pripoj();
+    sqlPraceRopid.stahniSeznamSpojuBezNacestnych(spoje);
+    qDebug()<<"nacetl jsem spoju:"<<spoje.count();
+    vypisSpoje(spoje);
 }
 

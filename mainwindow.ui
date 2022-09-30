@@ -24,7 +24,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab_load">
        <attribute name="title">
@@ -137,7 +137,7 @@
         <string>Navazující Zastávky</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_3">
-        <item row="0" column="0">
+        <item row="1" column="0">
          <layout class="QVBoxLayout" name="verticalLayout">
           <item>
            <widget class="QTableWidget" name="tableWidget_zastavkyNavazujici">
@@ -177,12 +177,69 @@
           </item>
          </layout>
         </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>Seznam zastávek, kde dochází k přechodu na návazný spoj</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
       <widget class="QWidget" name="tab_nacestne">
        <attribute name="title">
         <string>nácestné</string>
        </attribute>
+       <layout class="QGridLayout" name="gridLayout_4">
+        <item row="1" column="0">
+         <widget class="QTableWidget" name="tableWidget_nacestne">
+          <column>
+           <property name="text">
+            <string>s</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>l</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>p</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>c</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>pocet</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>nacestne</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QPushButton" name="pushButton_nacestneStart">
+          <property name="text">
+           <string>Spustit</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>Seznam spojů, které mají více jak 5 zástavek a mají 0 nácestných zastávek</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>
