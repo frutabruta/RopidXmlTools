@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     vsechnyConnecty();
+    ui->tabWidget_mainSwitcher->setCurrentWidget(ui->tab_load);
 }
 
 MainWindow::~MainWindow()
