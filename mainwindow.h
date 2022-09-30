@@ -5,6 +5,7 @@
 #include <QFileDialog>
 #include "sqlpraceropid.h"
 #include "xmlropidparser.h"
+#include "sqldotazymodel.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -27,9 +28,10 @@ private slots:
 
     void on_pushButton_nacestneStart_clicked();
 
+
 private:
     Ui::MainWindow *ui;
-    SqlPraceRopid sqlPraceRopid;
+    SqlDotazyModel sqlDotazyModel;
     XmlRopidParser xmlRopidParser;
 
     QVector<Zastavka> seznamZastavek;
@@ -40,8 +42,5 @@ private:
     void vsechnyConnecty();
 
 
-
-    void vypisZastavky(QVector<Zastavka> seznamZastavek);
-    void vypisSpoje(QVector<QMap<QString,QString>> spoje);
 };
 #endif // MAINWINDOW_H

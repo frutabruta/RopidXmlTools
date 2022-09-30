@@ -13,6 +13,7 @@ CONFIG += c++11
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
+    sqldotazymodel.cpp \
     sqlpraceropid.cpp \
     xmlropidparser.cpp \
     VDV301struktury/spoj.cpp \
@@ -24,6 +25,7 @@ SOURCES += \
 
 HEADERS += \
     mainwindow.h \
+    sqldotazymodel.h \
     sqlpraceropid.h \
     xmlropidparser.h \
     VDV301struktury/spoj.h \

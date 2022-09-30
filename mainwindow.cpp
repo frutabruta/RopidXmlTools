@@ -20,7 +20,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::vsechnyConnecty()
 {
-    connect(&sqlPraceRopid,&SqlPraceRopid::odesliChybovouHlasku,this,&MainWindow::slotVypisChybu);
+    connect(&sqlDotazyModel,&SqlDotazyModel::odesliChybovouHlasku,this,&MainWindow::slotVypisChybu);
     connect(&xmlRopidParser,&XmlRopidParser::odesliChybovouHlasku,this,&MainWindow::slotVypisChybu);
 }
 
@@ -63,86 +63,6 @@ void MainWindow::on_pushButton_start_clicked()
 }
 
 
-void MainWindow::vypisZastavky(QVector<Zastavka> seznamZastavek)
-{
-    ui->tableWidget_zastavkyNavazujici->setRowCount(0);
-
-
-
-    qDebug()<<"Seznam zastavek na hranici navazneho spoje:";
-    foreach(Zastavka zastavka,seznamZastavek)
-    {
-        qint32 row;
-
-        row = ui->tableWidget_zastavkyNavazujici->rowCount();
-        ui->tableWidget_zastavkyNavazujici->insertRow(row);
-
-         QTableWidgetItem *cell;
-
-        cell = new QTableWidgetItem(zastavka.StopName );
-        ui->tableWidget_zastavkyNavazujici->setItem(row, 0, cell);
-
-        cell = new QTableWidgetItem(QString::number(zastavka.cisloCis));
-        ui->tableWidget_zastavkyNavazujici->setItem(row, 1, cell);
-
-        cell = new QTableWidgetItem(QString::number(zastavka.cisloOis ));
-        ui->tableWidget_zastavkyNavazujici->setItem(row, 2, cell);
-
-        cell = new QTableWidgetItem(QString::number(zastavka.cisloU));
-        ui->tableWidget_zastavkyNavazujici->setItem(row, 3, cell);
-
-        cell = new QTableWidgetItem(QString::number(zastavka.cisloZ));
-        ui->tableWidget_zastavkyNavazujici->setItem(row, 4, cell);
-
-
-
-        slotVypisChybu(zastavka.StopName+" cis:"+QString::number(zastavka.cisloCis)+" ois:"+QString::number(zastavka.cisloOis)+" u:"+QString::number(zastavka.cisloU)+" u:"+ QString::number(zastavka.cisloZ));
-    }
-        ui->tableWidget_zastavkyNavazujici->resizeColumnsToContents();
-}
-
-void MainWindow::vypisSpoje(  QVector<QMap<QString,QString>> spoje)
-{
-    ui->tableWidget_nacestne->setRowCount(0);
-
-
-
-    qDebug()<<"Seznam zastavek na hranici navazneho spoje:";
-    for (int i=0;i<spoje.count();i++)
-    {
-        qint32 row;
-        QMap<QString,QString> spoj=spoje.at(i);
-
-
-        row = ui->tableWidget_zastavkyNavazujici->rowCount();
-        ui->tableWidget_nacestne->insertRow(row);
-
-         QTableWidgetItem *cell;
-
-        cell = new QTableWidgetItem(spoj["s"] );
-        ui->tableWidget_nacestne->setItem(row, 0, cell);
-
-        cell = new QTableWidgetItem(spoj["l"] );
-        ui->tableWidget_nacestne->setItem(row, 1, cell);
-
-        cell = new QTableWidgetItem(spoj["p"] );
-        ui->tableWidget_nacestne->setItem(row, 2, cell);
-
-        cell = new QTableWidgetItem(spoj["c"] );
-        ui->tableWidget_nacestne->setItem(row, 3, cell);
-
-        cell = new QTableWidgetItem(spoj["pocet"] );
-        ui->tableWidget_nacestne->setItem(row, 4, cell);
-
-        cell = new QTableWidgetItem(spoj["nacestne"] );
-        ui->tableWidget_nacestne->setItem(row, 5, cell);
-
-
-
-      //  slotVypisChybu(zastavka.StopName+" cis:"+QString::number(zastavka.cisloCis)+" ois:"+QString::number(zastavka.cisloOis)+" u:"+QString::number(zastavka.cisloU)+" u:"+ QString::number(zastavka.cisloZ));
-    }
-        ui->tableWidget_zastavkyNavazujici->resizeColumnsToContents();
-}
 
 
 void MainWindow::slotVypisChybu(QString vstup)
@@ -154,18 +74,18 @@ void MainWindow::slotVypisChybu(QString vstup)
 
 void MainWindow::on_pushButton_navazZast_clicked()
 {
-    sqlPraceRopid.pripoj();
-    sqlPraceRopid.stahniZastavkyNavaznySpoj(seznamZastavek);
-    vypisZastavky(seznamZastavek);
+    ui->tableView_navazne->setModel(sqlDotazyModel.stahniZastavkyNavaznySpojNew());
+    ui->tableView_navazne->show();
+    ui->tableView_navazne->resizeColumnsToContents();
 }
 
 
 void MainWindow::on_pushButton_nacestneStart_clicked()
 {
     QVector<QMap<QString,QString>> spoje;
-    sqlPraceRopid.pripoj();
-    sqlPraceRopid.stahniSeznamSpojuBezNacestnych(spoje);
-    qDebug()<<"nacetl jsem spoju:"<<spoje.count();
-    vypisSpoje(spoje);
+
+    ui->tableView_nacestne->setModel(sqlDotazyModel.stahniSeznamSpojuBezNacestnychNew());
+    ui->tableView_nacestne->show();
+    ui->tableView_nacestne->resizeColumnsToContents();
 }
 

@@ -74,8 +74,10 @@ public:
     int poziceSpojeNaSeznamu(QVector<Spoj> seznamSpoju, Spoj spoj);
     QVector<Pasmo> pasmoStringDoVectoru(QString vstup, QString system, QString tl);
 
-    int stahniZastavkyNavaznySpoj(QVector<Zastavka> &docasnySeznamZastavek);
-    int stahniSeznamSpojuBezNacestnych(QVector<QMap<QString, QString> > &spoje);
+protected:
+
+
+
 signals:
     void odesliChybovouHlasku(QString chybovaHlaska);
 private:
