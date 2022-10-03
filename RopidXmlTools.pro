@@ -11,11 +11,11 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    XmlRopidImportStream/xmlropidimportstream.cpp \
     main.cpp \
     mainwindow.cpp \
     sqldotazymodel.cpp \
     sqlpraceropid.cpp \
-    xmlropidparser.cpp \
     VDV301struktury/spoj.cpp \
     VDV301struktury/linka.cpp \
     VDV301struktury/obeh.cpp \
@@ -24,10 +24,10 @@ SOURCES += \
     VDV301struktury/zastavkacil.cpp
 
 HEADERS += \
+    XmlRopidImportStream/xmlropidimportstream.h \
     mainwindow.h \
     sqldotazymodel.h \
     sqlpraceropid.h \
-    xmlropidparser.h \
     VDV301struktury/spoj.h \
     VDV301struktury/linka.h \
     VDV301struktury/obeh.h \

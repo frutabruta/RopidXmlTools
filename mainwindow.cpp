@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "sqlpraceropid.h"
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -25,14 +25,14 @@ MainWindow::~MainWindow()
 void MainWindow::vsechnyConnecty()
 {
     connect(&sqlDotazyModel,&SqlDotazyModel::odesliChybovouHlasku,this,&MainWindow::slotVypisChybu);
-    connect(&xmlRopidParser,&XmlRopidParser::odesliChybovouHlasku,this,&MainWindow::slotVypisChybu);
+    connect(&xmlRopidImportStream,&XmlRopidImportStream::odesliChybovouHlasku,this,&MainWindow::slotVypisChybu);
 }
 
 
 void MainWindow::on_pushButton_selectFile_clicked()
 {
     qDebug() <<  Q_FUNC_INFO;
-    xmlRopidParser.vstupniXmlSouborCesta=otevriSouborXmlDialog();
+    xmlRopidImportStream.vstupniXmlSouborCesta=otevriSouborXmlDialog();
     nastavLabelCestyXml();
 }
 
@@ -42,7 +42,7 @@ void MainWindow::on_pushButton_selectFile_clicked()
 void MainWindow::nastavLabelCestyXml()
 {
     qDebug() <<  Q_FUNC_INFO;
-    ui->label_xmlPath->setText(xmlRopidParser.vstupniXmlSouborCesta);
+    ui->label_xmlPath->setText(xmlRopidImportStream.vstupniXmlSouborCesta);
 
 }
 
@@ -61,9 +61,9 @@ QString MainWindow::otevriSouborXmlDialog()
 void MainWindow::on_pushButton_start_clicked()
 {
      qDebug() <<  Q_FUNC_INFO;
-    xmlRopidParser.truncateAll();
+    xmlRopidImportStream.truncateAll();
     slotVypisChybu("Zacatek importu:"+QTime::currentTime().toString() );
-    xmlRopidParser.otevriSoubor(xmlRopidParser.vstupniXmlSouborCesta);
+    xmlRopidImportStream.otevriSoubor(xmlRopidImportStream.vstupniXmlSouborCesta);
     slotVypisChybu("Konec importu:"+QTime::currentTime().toString() );
 
 }

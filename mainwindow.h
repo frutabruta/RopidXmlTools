@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <QFileDialog>
 #include "sqlpraceropid.h"
-#include "xmlropidparser.h"
+#include "XmlRopidImportStream/xmlropidimportstream.h"
 #include "sqldotazymodel.h"
 
 QT_BEGIN_NAMESPACE
@@ -32,7 +32,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     SqlDotazyModel sqlDotazyModel;
-    XmlRopidParser xmlRopidParser;
+    XmlRopidImportStream xmlRopidImportStream;
 
     QVector<Zastavka> seznamZastavek;
 
