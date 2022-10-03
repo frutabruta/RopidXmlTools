@@ -9,6 +9,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     vsechnyConnecty();
     ui->tabWidget_mainSwitcher->setCurrentWidget(ui->tab_load);
+
+    QString compilationTime = QString("%1T%2").arg(__DATE__,__TIME__);
+    ui->label_verze->setText(compilationTime);
+
 }
 
 MainWindow::~MainWindow()
@@ -58,7 +62,9 @@ void MainWindow::on_pushButton_start_clicked()
 {
      qDebug() <<  Q_FUNC_INFO;
     xmlRopidParser.truncateAll();
+    slotVypisChybu("Zacatek importu:"+QTime::currentTime().toString() );
     xmlRopidParser.otevriSoubor(xmlRopidParser.vstupniXmlSouborCesta);
+    slotVypisChybu("Konec importu:"+QTime::currentTime().toString() );
 
 }
 
@@ -82,7 +88,7 @@ void MainWindow::on_pushButton_navazZast_clicked()
 
 void MainWindow::on_pushButton_nacestneStart_clicked()
 {
-    QVector<QMap<QString,QString>> spoje;
+
 
     ui->tableView_nacestne->setModel(sqlDotazyModel.stahniSeznamSpojuBezNacestnychNew());
     ui->tableView_nacestne->show();
