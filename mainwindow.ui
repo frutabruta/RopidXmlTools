@@ -31,7 +31,7 @@
         <string>Načtení XML</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_2">
-        <item row="0" column="1" rowspan="4">
+        <item row="1" column="1" rowspan="5">
          <widget class="QTextEdit" name="textEdit_vypisChyb">
           <property name="palette">
            <palette>
@@ -106,38 +106,19 @@
          </widget>
         </item>
         <item row="3" column="0">
-         <widget class="QPushButton" name="pushButton_start">
+         <widget class="QPushButton" name="pushButton_clear">
+          <property name="font">
+           <font>
+            <pointsize>15</pointsize>
+           </font>
+          </property>
           <property name="text">
-           <string>Načíst XML</string>
+           <string>Vymaž
+okno</string>
           </property>
          </widget>
         </item>
-        <item row="0" column="0">
-         <layout class="QHBoxLayout" name="horizontalLayout">
-          <item>
-           <widget class="QLabel" name="label_xmlPath">
-            <property name="text">
-             <string>Cesta souboru</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButton_selectFile">
-            <property name="text">
-             <string>Vyber soubor</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item row="4" column="1">
-         <widget class="QLabel" name="label_verze">
-          <property name="text">
-           <string>TextLabel</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="0">
+        <item row="7" column="0">
          <widget class="QLabel" name="label_3">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
@@ -146,7 +127,70 @@
            </sizepolicy>
           </property>
           <property name="text">
-           <string>verze:</string>
+           <string>verze programu:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
+           <widget class="QPushButton" name="pushButton_selectFile">
+            <property name="font">
+             <font>
+              <pointsize>15</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Vyber
+ soubor</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_start">
+            <property name="font">
+             <font>
+              <pointsize>15</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Načíst 
+ XML</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="4" column="0">
+         <widget class="QPushButton" name="pushButton_vsechnyTesty">
+          <property name="font">
+           <font>
+            <pointsize>15</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Spustit
+kontroly</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="1">
+         <widget class="QLabel" name="label_verze">
+          <property name="text">
+           <string>TextLabel</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0" colspan="2">
+         <widget class="QLabel" name="label_xmlPath">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Cesta souboru</string>
           </property>
          </widget>
         </item>
@@ -197,6 +241,30 @@
         </item>
         <item row="2" column="0">
          <widget class="QPushButton" name="pushButton_nacestneStart">
+          <property name="text">
+           <string>Spustit</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string>násobné spoje</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_5">
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string>Vypíše seznam spojů, které se vyskytují víckrát (několik platností)</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QTableView" name="tableView_nasobneSpoje"/>
+        </item>
+        <item row="2" column="0">
+         <widget class="QPushButton" name="pushButton_nasobneSpoje">
           <property name="text">
            <string>Spustit</string>
           </property>

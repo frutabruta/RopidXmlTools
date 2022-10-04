@@ -80,18 +80,49 @@ void MainWindow::slotVypisChybu(QString vstup)
 
 void MainWindow::on_pushButton_navazZast_clicked()
 {
-    ui->tableView_navazne->setModel(sqlDotazyModel.stahniZastavkyNavaznySpojNew());
+    QSqlQueryModel *model=sqlDotazyModel.stahniZastavkyNavaznySpojNew();
+
+    ui->tableView_navazne->setModel(model);
     ui->tableView_navazne->show();
     ui->tableView_navazne->resizeColumnsToContents();
+    slotVypisChybu("Počet zastávek mezi nácestnými spoji: "+QString::number(model->rowCount()));
 }
 
 
 void MainWindow::on_pushButton_nacestneStart_clicked()
 {
+    QSqlQueryModel *model=sqlDotazyModel.stahniSeznamSpojuBezNacestnychNew();
 
-
-    ui->tableView_nacestne->setModel(sqlDotazyModel.stahniSeznamSpojuBezNacestnychNew());
+    ui->tableView_nacestne->setModel(model);
     ui->tableView_nacestne->show();
     ui->tableView_nacestne->resizeColumnsToContents();
+
+    slotVypisChybu("Počet spojů bez nácestných: "+QString::number(model->rowCount()));
+}
+
+
+void MainWindow::on_pushButton_nasobneSpoje_clicked()
+{
+    QSqlQueryModel *model=sqlDotazyModel.stahniSeznamVicenasobneSpoje();
+
+    ui->tableView_nasobneSpoje->setModel(model);
+    ui->tableView_nasobneSpoje->show();
+    ui->tableView_nasobneSpoje->resizeColumnsToContents();
+
+    slotVypisChybu("Počet násobných spojů: "+QString::number(model->rowCount()));
+}
+
+
+void MainWindow::on_pushButton_vsechnyTesty_clicked()
+{
+on_pushButton_nacestneStart_clicked();
+on_pushButton_nasobneSpoje_clicked();
+on_pushButton_navazZast_clicked();
+}
+
+
+void MainWindow::on_pushButton_clear_clicked()
+{
+    ui->textEdit_vypisChyb->clear();
 }
 

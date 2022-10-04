@@ -28,13 +28,14 @@ int SqlPraceRopid::pripoj()
     bool ok = otevriDB();
     if (ok==true)
     {
-        emit odesliChybovouHlasku("připojení se povedlo");
+        //emit odesliChybovouHlasku("připojení se povedlo");
+        qDebug()<<"připojení se povedlo";
         return 1;
     }
     else
     {
-        emit odesliChybovouHlasku("připojení se nezdařilo");
-        qDebug()<<"nepovedlo se";
+      //  emit odesliChybovouHlasku("připojení se nezdařilo");
+        qDebug()<<"připojení se nepovedlo";
         return 0;
     }
 
@@ -51,7 +52,7 @@ int SqlPraceRopid::otevriDB()
         qDebug()<<"podarilo se pripojit k databazi ROPID";
         qDebug()<<"is driver available "<<QString::number(mojeDatabaze.isDriverAvailable("QSQLITE"));
         qDebug()<<"je databaze otevrena "<<QString::number(mojeDatabaze.isOpen());
-        emit odesliChybovouHlasku("je databaze otevrena");
+      //  emit odesliChybovouHlasku("je databaze otevrena");
         qDebug()<<"je databaze validni "<<QString::number(mojeDatabaze.isValid());
         return 1;
     }

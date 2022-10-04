@@ -28,6 +28,11 @@ private slots:
 
     void on_pushButton_nacestneStart_clicked();
 
+    void on_pushButton_nasobneSpoje_clicked();
+
+    void on_pushButton_vsechnyTesty_clicked();
+
+    void on_pushButton_clear_clicked();
 
 private:
     Ui::MainWindow *ui;

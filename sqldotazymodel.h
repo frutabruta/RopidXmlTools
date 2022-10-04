@@ -13,6 +13,7 @@ public:
 
     QSqlQueryModel *stahniSeznamSpojuBezNacestnychNew();
     QSqlQueryModel *stahniZastavkyNavaznySpojNew();
+    QSqlQueryModel *stahniSeznamVicenasobneSpoje();
 };
 
 #endif // SQLDOTAZYMODEL_H

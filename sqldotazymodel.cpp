@@ -161,6 +161,34 @@ QSqlQueryModel* SqlDotazyModel::stahniSeznamSpojuBezNacestnychNew()
 
 }
 
+QSqlQueryModel* SqlDotazyModel::stahniSeznamVicenasobneSpoje()
+{
+    qDebug() <<  Q_FUNC_INFO;
+
+    pripoj();
+    QSqlQueryModel *model = new QSqlQueryModel;
+
+
+    QString queryString2="";
+    queryString2+="SELECT  COUNT(*),l, c ";
+    queryString2+="FROM s ";
+    queryString2+="GROUP BY l,c ";
+    queryString2+="HAVING COUNT(*)>1 AND man=0 ";
+    queryString2+="ORDER BY l";
+
+
+
+    model->setQuery(queryString2);
+    model->setHeaderData(0, Qt::Horizontal, tr("Počet"));
+    model->setHeaderData(1, Qt::Horizontal, tr("l"));
+    model->setHeaderData(2, Qt::Horizontal, tr("c"));
+
+
+   // QTableView *view = new QTableView;
+
+    return model;
+
+}
 
 QSqlQueryModel* SqlDotazyModel::stahniZastavkyNavaznySpojNew()
 {
