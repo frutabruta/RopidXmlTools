@@ -19,6 +19,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+
 private slots:
     void on_pushButton_selectFile_clicked();
 
@@ -36,10 +37,15 @@ private slots:
 
     void slotNastavProgress(int hodnota);
     void slotNastavProgressMax(int hodnota);
+    void handleResults(QString vstup);
+
+
+    void slotAktivujTlacitka();
+     void slotDeaktivujTlacitka();
 private:
     Ui::MainWindow *ui;
     SqlDotazyModel sqlDotazyModel;
-    XmlRopidImportStream xmlRopidImportStream;
+  //  XmlRopidImportStream xmlRopidImportStream;
 
     QVector<Zastavka> seznamZastavek;
 
@@ -48,10 +54,14 @@ private:
     void slotVypisChybu(QString vstup);
     void vsechnyConnecty();
 
+    QString cestaSouboru="";
+
 
     QString nahradZnacky(QString vstup);
 
     void resetujProgressBar();
+    void startWorkInAThread();
+
 signals:
     void signalNactiSoubor(QString cesta);
 };

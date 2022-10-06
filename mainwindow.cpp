@@ -14,9 +14,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->label_verze->setText(compilationTime);
 
     resetujProgressBar();
-
-
-
 }
 
 MainWindow::~MainWindow()
@@ -28,17 +25,13 @@ MainWindow::~MainWindow()
 void MainWindow::vsechnyConnecty()
 {
     connect(&sqlDotazyModel,&SqlDotazyModel::odesliChybovouHlasku,this,&MainWindow::slotVypisChybu);
-    connect(&xmlRopidImportStream,&XmlRopidImportStream::odesliChybovouHlasku,this,&MainWindow::slotVypisChybu);
-    connect(this,&MainWindow::signalNactiSoubor,&xmlRopidImportStream,&XmlRopidImportStream::slotOtevriSoubor);
-    connect(&xmlRopidImportStream,&XmlRopidImportStream::signalNastavProgress,this,&MainWindow::slotNastavProgress);
-    connect(&xmlRopidImportStream,&XmlRopidImportStream::signalNastavProgressMax,this,&MainWindow::slotNastavProgressMax);
 }
 
 
 void MainWindow::on_pushButton_selectFile_clicked()
 {
     qDebug() <<  Q_FUNC_INFO;
-    xmlRopidImportStream.vstupniXmlSouborCesta=otevriSouborXmlDialog();
+    cestaSouboru=otevriSouborXmlDialog();
     nastavLabelCestyXml();
 }
 
@@ -48,7 +41,7 @@ void MainWindow::on_pushButton_selectFile_clicked()
 void MainWindow::nastavLabelCestyXml()
 {
     qDebug() <<  Q_FUNC_INFO;
-    ui->label_xmlPath->setText(xmlRopidImportStream.vstupniXmlSouborCesta);
+    ui->label_xmlPath->setText(cestaSouboru);
 
 }
 
@@ -67,12 +60,8 @@ QString MainWindow::otevriSouborXmlDialog()
 void MainWindow::on_pushButton_start_clicked()
 {
     qDebug() <<  Q_FUNC_INFO;
-    xmlRopidImportStream.truncateAll();
-    slotVypisChybu("Zacatek importu:"+QTime::currentTime().toString() );
-    emit signalNactiSoubor(xmlRopidImportStream.vstupniXmlSouborCesta);
-  //  xmlRopidImportStream.otevriSoubor(xmlRopidImportStream.vstupniXmlSouborCesta);
-    slotVypisChybu("Konec importu:"+QTime::currentTime().toString() );
 
+    startWorkInAThread();
 }
 
 
@@ -136,20 +125,63 @@ void MainWindow::on_pushButton_clear_clicked()
 void MainWindow::slotNastavProgress(int hodnota)
 {
     ui->progressBar->setValue(hodnota);
-   // qDebug()<<QString::number(hodnota)<<"/"<<QString::number(ui->progressBar->maximum());
+    // qDebug()<<QString::number(hodnota)<<"/"<<QString::number(ui->progressBar->maximum());
 }
 
 
 void MainWindow::slotNastavProgressMax(int hodnota)
 {
-    resetujProgressBar();
-ui->progressBar->setMaximum(hodnota);
+    //resetujProgressBar();
+    qDebug()<<Q_FUNC_INFO<<" "<<QString::number(hodnota);
+    ui->progressBar->setMaximum(hodnota);
 }
 
 void MainWindow::resetujProgressBar()
 {
     ui->progressBar->setMinimum(0);
-    ui->progressBar->setMaximum(100);
+    //   ui->progressBar->setMaximum(100);
     ui->progressBar->setValue(0);
 }
 
+void MainWindow::handleResults(QString vstup)
+{
+    qDebug()<<"vysledky dorazily z vlakna "<<vstup;
+}
+
+void MainWindow::startWorkInAThread()
+{
+    //XmlRopidImportStream *workerThread = &xmlRopidImportStream;
+    slotDeaktivujTlacitka();
+
+    XmlRopidImportStream *xmlRopidImportStream =  new XmlRopidImportStream();
+
+    xmlRopidImportStream->truncateAll();
+
+    xmlRopidImportStream->vstupniXmlSouborCesta=cestaSouboru;
+
+    connect(xmlRopidImportStream,&XmlRopidImportStream::resultReady, this, &MainWindow::handleResults);
+    connect(xmlRopidImportStream,&XmlRopidImportStream::finished, xmlRopidImportStream, &QObject::deleteLater);
+    connect(xmlRopidImportStream,&XmlRopidImportStream::finished, this, &MainWindow::slotAktivujTlacitka);
+
+    connect(xmlRopidImportStream,&XmlRopidImportStream::odesliChybovouHlasku,this,&MainWindow::slotVypisChybu);
+    connect(xmlRopidImportStream,&XmlRopidImportStream::signalNastavProgress,this,&MainWindow::slotNastavProgress);
+    connect(xmlRopidImportStream,&XmlRopidImportStream::signalNastavProgressMax,this,&MainWindow::slotNastavProgressMax);
+
+    xmlRopidImportStream->start();
+}
+
+
+
+void MainWindow::slotAktivujTlacitka()
+{
+    ui->pushButton_start->setDisabled(false);
+    ui->pushButton_selectFile->setDisabled(false);
+    ui->pushButton_vsechnyTesty->setDisabled(false);
+}
+
+void MainWindow::slotDeaktivujTlacitka()
+{
+    ui->pushButton_start->setDisabled(true);
+    ui->pushButton_selectFile->setDisabled(true);
+    ui->pushButton_vsechnyTesty->setDisabled(true);
+}
