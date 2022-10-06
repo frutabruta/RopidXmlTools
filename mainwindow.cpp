@@ -13,6 +13,8 @@ MainWindow::MainWindow(QWidget *parent)
     QString compilationTime = QString("%1T%2").arg(__DATE__,__TIME__);
     ui->label_verze->setText(compilationTime);
 
+    resetujProgressBar();
+
 
 
 }
@@ -28,6 +30,8 @@ void MainWindow::vsechnyConnecty()
     connect(&sqlDotazyModel,&SqlDotazyModel::odesliChybovouHlasku,this,&MainWindow::slotVypisChybu);
     connect(&xmlRopidImportStream,&XmlRopidImportStream::odesliChybovouHlasku,this,&MainWindow::slotVypisChybu);
     connect(this,&MainWindow::signalNactiSoubor,&xmlRopidImportStream,&XmlRopidImportStream::slotOtevriSoubor);
+    connect(&xmlRopidImportStream,&XmlRopidImportStream::signalNastavProgress,this,&MainWindow::slotNastavProgress);
+    connect(&xmlRopidImportStream,&XmlRopidImportStream::signalNastavProgressMax,this,&MainWindow::slotNastavProgressMax);
 }
 
 
@@ -128,4 +132,24 @@ void MainWindow::on_pushButton_clear_clicked()
 }
 
 
+
+void MainWindow::slotNastavProgress(int hodnota)
+{
+    ui->progressBar->setValue(hodnota);
+   // qDebug()<<QString::number(hodnota)<<"/"<<QString::number(ui->progressBar->maximum());
+}
+
+
+void MainWindow::slotNastavProgressMax(int hodnota)
+{
+    resetujProgressBar();
+ui->progressBar->setMaximum(hodnota);
+}
+
+void MainWindow::resetujProgressBar()
+{
+    ui->progressBar->setMinimum(0);
+    ui->progressBar->setMaximum(100);
+    ui->progressBar->setValue(0);
+}
 

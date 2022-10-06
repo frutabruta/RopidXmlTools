@@ -34,6 +34,8 @@ private slots:
 
     void on_pushButton_clear_clicked();
 
+    void slotNastavProgress(int hodnota);
+    void slotNastavProgressMax(int hodnota);
 private:
     Ui::MainWindow *ui;
     SqlDotazyModel sqlDotazyModel;
@@ -49,6 +51,7 @@ private:
 
     QString nahradZnacky(QString vstup);
 
+    void resetujProgressBar();
 signals:
     void signalNactiSoubor(QString cesta);
 };
