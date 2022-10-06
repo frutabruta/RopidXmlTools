@@ -47,5 +47,9 @@ private:
     void vsechnyConnecty();
 
 
+    QString nahradZnacky(QString vstup);
+
+signals:
+    void signalNactiSoubor(QString cesta);
 };
 #endif // MAINWINDOW_H

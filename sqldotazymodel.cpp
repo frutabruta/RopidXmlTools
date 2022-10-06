@@ -23,8 +23,6 @@ int SqlDotazyModel::stahniZastavkyNavaznySpoj(QVector<Zastavka> &docasnySeznamZa
     queryString2+="INNER JOIN z ON lol.z = z.z AND lol.u=z.u ";
     queryString2+="WHERE pokrac=1 ORDER BY z.n ASC ";
 
-
-    //QSqlQuery query(queryString2,this->mojeDatabaze);
     QSqlQuery query;
     query.exec(queryString2);
 
@@ -43,8 +41,6 @@ int SqlDotazyModel::stahniZastavkyNavaznySpoj(QVector<Zastavka> &docasnySeznamZa
             Zastavka aktZast;
 
             qDebug()<<"poradi Vysledku SQL dotazu "<<QString::number(pocetZastavek);
-
-            // z.n, z.cis, z.ois, z.u, z.z
 
             aktZast.StopName=query.value( query.record().indexOf("z.n")).toString();
 
@@ -103,22 +99,19 @@ int SqlDotazyModel::stahniSeznamSpojuBezNacestnych(QVector<QMap<QString,QString>
     {
         citacD++;
 
-        if (1)//(query.value(0).toString()!="")
-        {
+        QMap<QString,QString> aktSpoj;
 
-              QMap<QString,QString> aktSpoj;
+        qDebug()<<"poradi Vysledku SQL dotazu "<<QString::number(citacD);
+        aktSpoj["s"]=query.value( query.record().indexOf("s.s")).toString();
+        aktSpoj["l"]=query.value( query.record().indexOf("s.l")).toString();
+        aktSpoj["p"]=query.value( query.record().indexOf("s.p")).toString();
+        aktSpoj["c"]=query.value( query.record().indexOf("s.c")).toString();
+        aktSpoj["pocet"] =QString::number(query.value(query.record().indexOf("pocet")).toInt() );
+        aktSpoj["nacestne"]=QString::number(query.value( query.record().indexOf("nacestne")).toInt());
+        spoje.push_back(aktSpoj);
 
-            qDebug()<<"poradi Vysledku SQL dotazu "<<QString::number(citacD);
-            aktSpoj["s"]=query.value( query.record().indexOf("s.s")).toString();
-            aktSpoj["l"]=query.value( query.record().indexOf("s.l")).toString();
-            aktSpoj["p"]=query.value( query.record().indexOf("s.p")).toString();
-            aktSpoj["c"]=query.value( query.record().indexOf("s.c")).toString();
-           aktSpoj["pocet"] =QString::number(query.value(query.record().indexOf("pocet")).toInt() );
-           aktSpoj["nacestne"]=QString::number(query.value( query.record().indexOf("nacestne")).toInt());
-            spoje.push_back(aktSpoj);
+        qDebug()<<" "<<aktSpoj["s"]<<" "<<aktSpoj["l"]<<" "<<aktSpoj["pocet"]<<" "<<aktSpoj["nacestne"];
 
-         qDebug()<<" "<<aktSpoj["s"]<<" "<<aktSpoj["l"]<<" "<<aktSpoj["pocet"]<<" "<<aktSpoj["nacestne"];
-        }
 
     }
 
@@ -155,7 +148,6 @@ QSqlQueryModel* SqlDotazyModel::stahniSeznamSpojuBezNacestnychNew()
     model->setHeaderData(3, Qt::Horizontal, tr("c"));
     model->setHeaderData(4, Qt::Horizontal, tr("pocet"));
     model->setHeaderData(5, Qt::Horizontal, tr("nacestne"));
-   // QTableView *view = new QTableView;
 
     return model;
 
@@ -168,7 +160,6 @@ QSqlQueryModel* SqlDotazyModel::stahniSeznamVicenasobneSpoje()
     pripoj();
     QSqlQueryModel *model = new QSqlQueryModel;
 
-
     QString queryString2="";
     queryString2+="SELECT  COUNT(*),l, c ";
     queryString2+="FROM s ";
@@ -176,15 +167,10 @@ QSqlQueryModel* SqlDotazyModel::stahniSeznamVicenasobneSpoje()
     queryString2+="HAVING COUNT(*)>1 AND man=0 ";
     queryString2+="ORDER BY l";
 
-
-
     model->setQuery(queryString2);
     model->setHeaderData(0, Qt::Horizontal, tr("Počet"));
     model->setHeaderData(1, Qt::Horizontal, tr("l"));
     model->setHeaderData(2, Qt::Horizontal, tr("c"));
-
-
-   // QTableView *view = new QTableView;
 
     return model;
 
@@ -196,7 +182,6 @@ QSqlQueryModel* SqlDotazyModel::stahniZastavkyNavaznySpojNew()
 
     pripoj();
     QSqlQueryModel *model = new QSqlQueryModel;
-
 
     QString queryString2="";
     queryString2+="SELECT DISTINCT z.n, z.cis, z.ois, z.u, z.z ";
@@ -212,20 +197,6 @@ QSqlQueryModel* SqlDotazyModel::stahniZastavkyNavaznySpojNew()
     model->setHeaderData(3, Qt::Horizontal, tr("uzel"));
     model->setHeaderData(4, Qt::Horizontal, tr("sloupek"));
 
-   // QTableView *view = new QTableView;
-
     return model;
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
