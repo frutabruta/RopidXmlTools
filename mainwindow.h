@@ -3,9 +3,10 @@
 
 #include <QMainWindow>
 #include <QFileDialog>
-#include "sqlpraceropid.h"
+#include <QTableView>
 #include "XmlRopidImportStream/xmlropidimportstream.h"
 #include "sqldotazymodel.h"
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -42,12 +43,15 @@ private slots:
 
     void slotAktivujTlacitka();
      void slotDeaktivujTlacitka();
+     void on_pushButton_poznamky_clicked();
+
+
 private:
     Ui::MainWindow *ui;
     SqlDotazyModel sqlDotazyModel;
   //  XmlRopidImportStream xmlRopidImportStream;
 
-    QVector<Zastavka> seznamZastavek;
+
 
     QString otevriSouborXmlDialog();
     void nastavLabelCestyXml();
@@ -62,6 +66,7 @@ private:
     void resetujProgressBar();
     void startWorkInAThread();
 
+    void spustDotazSpolecne(QSqlQueryModel *model2, QTableView *tableView, QString text);
 signals:
     void signalNactiSoubor(QString cesta);
 };

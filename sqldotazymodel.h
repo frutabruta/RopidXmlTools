@@ -1,19 +1,16 @@
 #ifndef SQLDOTAZYMODEL_H
 #define SQLDOTAZYMODEL_H
-#include "sqlpraceropid.h"
+#include "XmlRopidImportStream/sqlitezaklad.h"
 
-class SqlDotazyModel : public SqlPraceRopid
+class SqlDotazyModel : public SqLiteZaklad
 {
 public:
     SqlDotazyModel();
-    int stahniZastavkyNavaznySpoj(QVector<Zastavka> &docasnySeznamZastavek);
-    int stahniSeznamSpojuBezNacestnych(QVector<QMap<QString,QString>> &spoje);
-
-
 
     QSqlQueryModel *stahniSeznamSpojuBezNacestnychNew();
     QSqlQueryModel *stahniZastavkyNavaznySpojNew();
     QSqlQueryModel *stahniSeznamVicenasobneSpoje();
+    QSqlQueryModel *stahniSeznamPoznamky();
 };
 
 #endif // SQLDOTAZYMODEL_H

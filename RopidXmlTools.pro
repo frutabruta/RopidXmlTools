@@ -12,10 +12,10 @@ CONFIG += c++11
 
 SOURCES += \
     XmlRopidImportStream/xmlropidimportstream.cpp \
+    XmlRopidImportStream/sqlitezaklad.cpp \
     main.cpp \
     mainwindow.cpp \
     sqldotazymodel.cpp \
-    sqlpraceropid.cpp \
     VDV301struktury/spoj.cpp \
     VDV301struktury/linka.cpp \
     VDV301struktury/obeh.cpp \
@@ -25,9 +25,9 @@ SOURCES += \
 
 HEADERS += \
     XmlRopidImportStream/xmlropidimportstream.h \
+    XmlRopidImportStream/sqlitezaklad.h \
     mainwindow.h \
     sqldotazymodel.h \
-    sqlpraceropid.h \
     VDV301struktury/spoj.h \
     VDV301struktury/linka.h \
     VDV301struktury/obeh.h \

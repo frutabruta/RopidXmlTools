@@ -25,14 +25,17 @@ MainWindow::~MainWindow()
 void MainWindow::vsechnyConnecty()
 {
     connect(&sqlDotazyModel,&SqlDotazyModel::odesliChybovouHlasku,this,&MainWindow::slotVypisChybu);
+
+
+
+
+    //QHeaderView::sortIndicatorChanged() signal to the QTableView::sortByColumn()
 }
 
 
-void MainWindow::on_pushButton_selectFile_clicked()
+void MainWindow::handleResults(QString vstup)
 {
-    qDebug() <<  Q_FUNC_INFO;
-    cestaSouboru=otevriSouborXmlDialog();
-    nastavLabelCestyXml();
+    qDebug()<<"vysledky dorazily z vlakna "<<vstup;
 }
 
 /*!
@@ -43,6 +46,14 @@ void MainWindow::nastavLabelCestyXml()
     qDebug() <<  Q_FUNC_INFO;
     ui->label_xmlPath->setText(cestaSouboru);
 
+}
+
+
+void MainWindow::on_pushButton_selectFile_clicked()
+{
+    qDebug() <<  Q_FUNC_INFO;
+    cestaSouboru=otevriSouborXmlDialog();
+    nastavLabelCestyXml();
 }
 
 
@@ -74,36 +85,24 @@ void MainWindow::slotVypisChybu(QString vstup)
 
 void MainWindow::on_pushButton_navazZast_clicked()
 {
-    QSqlQueryModel *model=sqlDotazyModel.stahniZastavkyNavaznySpojNew();
-
-    ui->tableView_navazne->setModel(model);
-    ui->tableView_navazne->show();
-    ui->tableView_navazne->resizeColumnsToContents();
-    slotVypisChybu("Počet zastávek mezi nácestnými spoji: "+QString::number(model->rowCount()));
+    spustDotazSpolecne(sqlDotazyModel.stahniZastavkyNavaznySpojNew(),ui->tableView_navazne,"Počet zastávek mezi nácestnými spoji: ");
 }
 
 
 void MainWindow::on_pushButton_nacestneStart_clicked()
 {
-    QSqlQueryModel *model=sqlDotazyModel.stahniSeznamSpojuBezNacestnychNew();
-
-    ui->tableView_nacestne->setModel(model);
-    ui->tableView_nacestne->show();
-    ui->tableView_nacestne->resizeColumnsToContents();
-
-    slotVypisChybu("Počet spojů bez nácestných: "+QString::number(model->rowCount()));
+    spustDotazSpolecne(sqlDotazyModel.stahniSeznamSpojuBezNacestnychNew(),ui->tableView_nacestne,"Počet spojů bez nácestných: ");
 }
 
 
 void MainWindow::on_pushButton_nasobneSpoje_clicked()
 {
-    QSqlQueryModel *model=sqlDotazyModel.stahniSeznamVicenasobneSpoje();
+    spustDotazSpolecne(sqlDotazyModel.stahniSeznamVicenasobneSpoje(),ui->tableView_nasobneSpoje,"Počet násobných spojů: ");
+}
 
-    ui->tableView_nasobneSpoje->setModel(model);
-    ui->tableView_nasobneSpoje->show();
-    ui->tableView_nasobneSpoje->resizeColumnsToContents();
-
-    slotVypisChybu("Počet násobných spojů: "+QString::number(model->rowCount()));
+void MainWindow::on_pushButton_poznamky_clicked()
+{
+    spustDotazSpolecne(sqlDotazyModel.stahniSeznamPoznamky(),ui->tableView_poznamky,"Počet spojů s poznámkami na celém spoji: ");
 }
 
 
@@ -112,12 +111,20 @@ void MainWindow::on_pushButton_vsechnyTesty_clicked()
     on_pushButton_nacestneStart_clicked();
     on_pushButton_nasobneSpoje_clicked();
     on_pushButton_navazZast_clicked();
+    on_pushButton_poznamky_clicked();
 }
 
 
 void MainWindow::on_pushButton_clear_clicked()
 {
     ui->textEdit_vypisChyb->clear();
+}
+
+void MainWindow::resetujProgressBar()
+{
+    ui->progressBar->setMinimum(0);
+    //   ui->progressBar->setMaximum(100);
+    ui->progressBar->setValue(0);
 }
 
 
@@ -136,17 +143,42 @@ void MainWindow::slotNastavProgressMax(int hodnota)
     ui->progressBar->setMaximum(hodnota);
 }
 
-void MainWindow::resetujProgressBar()
+void MainWindow::slotAktivujTlacitka()
 {
-    ui->progressBar->setMinimum(0);
-    //   ui->progressBar->setMaximum(100);
-    ui->progressBar->setValue(0);
+    ui->pushButton_start->setDisabled(false);
+    ui->pushButton_selectFile->setDisabled(false);
+    ui->pushButton_vsechnyTesty->setDisabled(false);
 }
 
-void MainWindow::handleResults(QString vstup)
+void MainWindow::slotDeaktivujTlacitka()
 {
-    qDebug()<<"vysledky dorazily z vlakna "<<vstup;
+    ui->pushButton_start->setDisabled(true);
+    ui->pushButton_selectFile->setDisabled(true);
+    ui->pushButton_vsechnyTesty->setDisabled(true);
 }
+
+
+void MainWindow::spustDotazSpolecne(QSqlQueryModel *model2,QTableView* tableView,QString text)
+{
+    QSortFilterProxyModel *proxyModel = new QSortFilterProxyModel(this);
+  //  QSortFilterProxyModel proxyModel ;
+
+    while ( model2->canFetchMore())
+    {
+        model2->fetchMore();
+    }
+    proxyModel->setSourceModel(model2);
+    tableView->setModel(proxyModel);
+    tableView->show();
+    tableView->resizeColumnsToContents();
+ //   tableView->setSortingEnabled(true);
+    connect(tableView->horizontalHeader(),SIGNAL(sortIndicatorChanged(int, Qt::SortOrder )),tableView,SLOT(sortByColumn(int, Qt::SortOrder )));
+    int pocet= proxyModel->rowCount();
+    qDebug()<<"pocet vysledku: "<<QString::number(pocet);
+    slotVypisChybu(text+QString::number(pocet));
+}
+
+
 
 void MainWindow::startWorkInAThread()
 {
@@ -171,17 +203,3 @@ void MainWindow::startWorkInAThread()
 }
 
 
-
-void MainWindow::slotAktivujTlacitka()
-{
-    ui->pushButton_start->setDisabled(false);
-    ui->pushButton_selectFile->setDisabled(false);
-    ui->pushButton_vsechnyTesty->setDisabled(false);
-}
-
-void MainWindow::slotDeaktivujTlacitka()
-{
-    ui->pushButton_start->setDisabled(true);
-    ui->pushButton_selectFile->setDisabled(true);
-    ui->pushButton_vsechnyTesty->setDisabled(true);
-}
