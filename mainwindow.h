@@ -46,6 +46,8 @@ private slots:
      void on_pushButton_poznamky_clicked();
 
 
+     void on_pushButton_bezCis_clicked();
+
 private:
     Ui::MainWindow *ui;
     SqlDotazyModel sqlDotazyModel;

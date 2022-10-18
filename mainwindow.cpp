@@ -83,6 +83,12 @@ void MainWindow::slotVypisChybu(QString vstup)
 }
 
 
+
+void MainWindow::on_pushButton_bezCis_clicked()
+{
+ spustDotazSpolecne(sqlDotazyModel.stahniSeznamZastavekBezCisCisla(),ui->tableView_bezCis,"Počet zastávek mezi nácestnými spoji: ");
+}
+
 void MainWindow::on_pushButton_navazZast_clicked()
 {
     spustDotazSpolecne(sqlDotazyModel.stahniZastavkyNavaznySpojNew(),ui->tableView_navazne,"Počet zastávek mezi nácestnými spoji: ");
@@ -112,6 +118,7 @@ void MainWindow::on_pushButton_vsechnyTesty_clicked()
     on_pushButton_nasobneSpoje_clicked();
     on_pushButton_navazZast_clicked();
     on_pushButton_poznamky_clicked();
+    on_pushButton_bezCis_clicked();
 }
 
 
@@ -201,5 +208,8 @@ void MainWindow::startWorkInAThread()
 
     xmlRopidImportStream->start();
 }
+
+
+
 
 

@@ -11,6 +11,7 @@ public:
     QSqlQueryModel *stahniZastavkyNavaznySpojNew();
     QSqlQueryModel *stahniSeznamVicenasobneSpoje();
     QSqlQueryModel *stahniSeznamPoznamky();
+    QSqlQueryModel *stahniSeznamZastavekBezCisCisla();
 };
 
 #endif // SQLDOTAZYMODEL_H

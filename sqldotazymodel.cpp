@@ -39,6 +39,33 @@ QSqlQueryModel* SqlDotazyModel::stahniSeznamSpojuBezNacestnychNew()
 
 }
 
+QSqlQueryModel* SqlDotazyModel::stahniSeznamZastavekBezCisCisla()
+{
+    qDebug() <<  Q_FUNC_INFO;
+
+    pripoj();
+    QSqlQueryModel *model = new QSqlQueryModel;
+
+    QString queryString2="";
+    queryString2+="SELECT  z.u, z.z, z.n,  z.pop, z.kj ";
+    queryString2+="FROM z ";
+    queryString2+="WHERE z.cis IS NULL AND tu IS NULL ";
+
+
+    qDebug().noquote()<<queryString2;
+
+    model->setQuery(queryString2);
+    model->setHeaderData(0, Qt::Horizontal, tr("uzel"));
+    model->setHeaderData(1, Qt::Horizontal, tr("sloupek"));
+    model->setHeaderData(2, Qt::Horizontal, tr("název"));
+     model->setHeaderData(3, Qt::Horizontal, tr("popis"));
+    model->setHeaderData(4, Qt::Horizontal, tr("kalendář jízd"));
+
+
+    return model;
+
+}
+
 QSqlQueryModel* SqlDotazyModel::stahniSeznamPoznamky()
 {
     qDebug() <<  Q_FUNC_INFO;
@@ -77,10 +104,7 @@ QSqlQueryModel* SqlDotazyModel::stahniSeznamPoznamky()
     model->setHeaderData(7, Qt::Horizontal, tr("text"));
 
 
-
-
     return model;
-
 }
 
 QSqlQueryModel* SqlDotazyModel::stahniSeznamVicenasobneSpoje()
