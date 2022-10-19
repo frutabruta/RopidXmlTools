@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent)
     QString compilationTime = QString("%1T%2").arg(__DATE__,__TIME__);
     ui->label_verze->setText(compilationTime);
 
+    ui->label_sqlChyba->hide();
     resetujProgressBar();
 }
 
@@ -25,6 +26,7 @@ MainWindow::~MainWindow()
 void MainWindow::vsechnyConnecty()
 {
     connect(&sqlDotazyModel,&SqlDotazyModel::odesliChybovouHlasku,this,&MainWindow::slotVypisChybu);
+    connect(this,&MainWindow::signalSqlChyba,this,&MainWindow::slotVypisSqlSelectChybu);
 
 
 
@@ -111,6 +113,14 @@ void MainWindow::on_pushButton_poznamky_clicked()
     spustDotazSpolecne(sqlDotazyModel.stahniSeznamPoznamky(),ui->tableView_poznamky,"Počet spojů s poznámkami na celém spoji: ");
 }
 
+void MainWindow::on_pushButton_sql_clicked()
+{
+
+    spustDotazSpolecne(sqlDotazyModel.stahniSqlDotaz( ui->plainTextEdit_sql->toPlainText()),ui->tableView_sql,"Počet spojů s poznámkami na celém spoji: ");
+
+}
+
+
 
 void MainWindow::on_pushButton_vsechnyTesty_clicked()
 {
@@ -150,6 +160,13 @@ void MainWindow::slotNastavProgressMax(int hodnota)
     ui->progressBar->setMaximum(hodnota);
 }
 
+void MainWindow::slotVypisSqlSelectChybu(QString vstup)
+{
+    qDebug()<<Q_FUNC_INFO;
+    ui->label_sqlChyba->show();
+    ui->label_sqlChyba->setText(vstup);
+}
+
 void MainWindow::slotAktivujTlacitka()
 {
     ui->pushButton_start->setDisabled(false);
@@ -169,6 +186,7 @@ void MainWindow::spustDotazSpolecne(QSqlQueryModel *model2,QTableView* tableView
 {
     QSortFilterProxyModel *proxyModel = new QSortFilterProxyModel(this);
   //  QSortFilterProxyModel proxyModel ;
+    ui->label_sqlChyba->hide();
 
     while ( model2->canFetchMore())
     {
@@ -182,6 +200,17 @@ void MainWindow::spustDotazSpolecne(QSqlQueryModel *model2,QTableView* tableView
     connect(tableView->horizontalHeader(),SIGNAL(sortIndicatorChanged(int, Qt::SortOrder )),tableView,SLOT(sortByColumn(int, Qt::SortOrder )));
     int pocet= proxyModel->rowCount();
     qDebug()<<"pocet vysledku: "<<QString::number(pocet);
+
+
+    QString driverError=model2->query().lastError().driverText();
+    QString databaseError=model2->lastError().databaseText();
+
+    if((driverError!="")||(databaseError!=""))
+    {
+    qDebug()<<"chyba existuje:"<<driverError<<" "<<databaseError;
+    emit signalSqlChyba(driverError+" "+databaseError);
+    }
+
     slotVypisChybu(text+QString::number(pocet));
 }
 
@@ -208,6 +237,8 @@ void MainWindow::startWorkInAThread()
 
     xmlRopidImportStream->start();
 }
+
+
 
 
 

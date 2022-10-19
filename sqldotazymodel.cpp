@@ -158,3 +158,32 @@ QSqlQueryModel* SqlDotazyModel::stahniZastavkyNavaznySpojNew()
     return model;
 
 }
+
+
+QSqlQueryModel* SqlDotazyModel::stahniSqlDotaz(QString dotaz)
+{
+    qDebug() <<  Q_FUNC_INFO;
+
+    pripoj();
+    QSqlQueryModel *model = new QSqlQueryModel;
+
+    QString queryString2=dotaz;
+
+
+    qDebug().noquote()<<queryString2;
+
+    model->setQuery(queryString2);
+
+
+
+               /*
+    model->setHeaderData(0, Qt::Horizontal, tr("uzel"));
+    model->setHeaderData(1, Qt::Horizontal, tr("sloupek"));
+    model->setHeaderData(2, Qt::Horizontal, tr("název"));
+     model->setHeaderData(3, Qt::Horizontal, tr("popis"));
+    model->setHeaderData(4, Qt::Horizontal, tr("kalendář jízd"));
+
+*/
+    return model;
+
+}

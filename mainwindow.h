@@ -38,6 +38,7 @@ private slots:
 
     void slotNastavProgress(int hodnota);
     void slotNastavProgressMax(int hodnota);
+    void slotVypisSqlSelectChybu(QString vstup);
     void handleResults(QString vstup);
 
 
@@ -47,6 +48,9 @@ private slots:
 
 
      void on_pushButton_bezCis_clicked();
+
+     void on_pushButton_sql_clicked();
+
 
 private:
     Ui::MainWindow *ui;
@@ -71,5 +75,6 @@ private:
     void spustDotazSpolecne(QSqlQueryModel *model2, QTableView *tableView, QString text);
 signals:
     void signalNactiSoubor(QString cesta);
+    void signalSqlChyba(QString vstup);
 };
 #endif // MAINWINDOW_H
