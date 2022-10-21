@@ -88,7 +88,7 @@ void MainWindow::slotVypisChybu(QString vstup)
 
 void MainWindow::on_pushButton_bezCis_clicked()
 {
- spustDotazSpolecne(sqlDotazyModel.stahniSeznamZastavekBezCisCisla(),ui->tableView_bezCis,"Počet zastávek mezi nácestnými spoji: ");
+ spustDotazSpolecne(sqlDotazyModel.stahniSeznamZastavekBezCisCisla(),ui->tableView_bezCis,"Počet zastávek bez CIS čísla: ");
 }
 
 void MainWindow::on_pushButton_navazZast_clicked()
@@ -116,7 +116,7 @@ void MainWindow::on_pushButton_poznamky_clicked()
 void MainWindow::on_pushButton_sql_clicked()
 {
 
-    spustDotazSpolecne(sqlDotazyModel.stahniSqlDotaz( ui->plainTextEdit_sql->toPlainText()),ui->tableView_sql,"Počet spojů s poznámkami na celém spoji: ");
+    spustDotazSpolecne(sqlDotazyModel.stahniSqlDotaz( ui->plainTextEdit_sql->toPlainText()),ui->tableView_sql,"Vysledek CustomSQL ");
 
 }
 
