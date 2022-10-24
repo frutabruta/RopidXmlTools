@@ -66,6 +66,35 @@ QSqlQueryModel* SqlDotazyModel::stahniSeznamZastavekBezCisCisla()
 
 }
 
+QSqlQueryModel* SqlDotazyModel::stahniSeznamZastavekPlatnost()
+{
+    qDebug() <<  Q_FUNC_INFO;
+
+    pripoj();
+    QSqlQueryModel *model = new QSqlQueryModel;
+
+    QString queryString2="";
+    queryString2+="SELECT  z.u, z.z,z.kj, z.n,  z.cis, z.ois ";
+    queryString2+="FROM z ";
+    queryString2+="WHERE z.kj LIKE '%0%' ";
+
+
+    qDebug().noquote()<<queryString2;
+
+    model->setQuery(queryString2);
+    model->setHeaderData(0, Qt::Horizontal, tr("uzel"));
+    model->setHeaderData(1, Qt::Horizontal, tr("sloupek"));
+    model->setHeaderData(2, Qt::Horizontal, tr("kj"));
+    model->setHeaderData(3, Qt::Horizontal, tr("název"));
+    model->setHeaderData(4, Qt::Horizontal, tr("číslo\nCIS"));
+    model->setHeaderData(5, Qt::Horizontal, tr("číslo\nOIS"));
+
+
+    return model;
+
+}
+
+
 QSqlQueryModel* SqlDotazyModel::stahniSeznamPoznamky()
 {
     qDebug() <<  Q_FUNC_INFO;

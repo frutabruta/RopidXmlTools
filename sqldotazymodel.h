@@ -12,7 +12,9 @@ public:
     QSqlQueryModel *stahniSeznamVicenasobneSpoje();
     QSqlQueryModel *stahniSeznamPoznamky();
     QSqlQueryModel *stahniSeznamZastavekBezCisCisla();
+    QSqlQueryModel *stahniSeznamZastavekPlatnost();
     QSqlQueryModel *stahniSqlDotaz(QString dotaz);
+
 
 signals:
     void signalSqlChyba(QString vstup);

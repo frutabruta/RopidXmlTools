@@ -14,6 +14,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->label_verze->setText(compilationTime);
 
     ui->label_sqlChyba->hide();
+
+    ui->pushButton_start->setDisabled(true);
     resetujProgressBar();
 }
 
@@ -26,6 +28,7 @@ MainWindow::~MainWindow()
 void MainWindow::vsechnyConnecty()
 {
     connect(&sqlDotazyModel,&SqlDotazyModel::odesliChybovouHlasku,this,&MainWindow::slotVypisChybu);
+    connect(&sqlDotazyModel,&SqlDotazyModel::odesliChybovouHlasku,this,&MainWindow::slotVypisSqlSelectChybu);
     connect(this,&MainWindow::signalSqlChyba,this,&MainWindow::slotVypisSqlSelectChybu);
 
 
@@ -55,6 +58,14 @@ void MainWindow::on_pushButton_selectFile_clicked()
 {
     qDebug() <<  Q_FUNC_INFO;
     cestaSouboru=otevriSouborXmlDialog();
+    if(!cestaSouboru.isEmpty())
+    {
+        ui->pushButton_start->setDisabled(false);
+    }
+    else
+    {
+        ui->pushButton_start->setDisabled(true);
+    }
     nastavLabelCestyXml();
 }
 
@@ -116,19 +127,25 @@ void MainWindow::on_pushButton_poznamky_clicked()
 void MainWindow::on_pushButton_sql_clicked()
 {
 
-    spustDotazSpolecne(sqlDotazyModel.stahniSqlDotaz( ui->plainTextEdit_sql->toPlainText()),ui->tableView_sql,"Vysledek CustomSQL ");
+    spustDotazSpolecne(sqlDotazyModel.stahniSqlDotaz( ui->plainTextEdit_sql->toPlainText()),ui->tableView_sql,"Výsledek CustomSQL ");
 
 }
 
+void MainWindow::on_pushButton_zastPlatnost_clicked()
+{
+    spustDotazSpolecne(sqlDotazyModel.stahniSeznamZastavekPlatnost(),ui->tableView_zastPlatnost,"Počet výskytu změn platnosti: ");
 
+}
 
 void MainWindow::on_pushButton_vsechnyTesty_clicked()
 {
+    on_pushButton_navazZast_clicked();
     on_pushButton_nacestneStart_clicked();
     on_pushButton_nasobneSpoje_clicked();
-    on_pushButton_navazZast_clicked();
+
     on_pushButton_poznamky_clicked();
     on_pushButton_bezCis_clicked();
+    on_pushButton_zastPlatnost_clicked();
 }
 
 
@@ -202,16 +219,25 @@ void MainWindow::spustDotazSpolecne(QSqlQueryModel *model2,QTableView* tableView
     qDebug()<<"pocet vysledku: "<<QString::number(pocet);
 
 
-    QString driverError=model2->query().lastError().driverText();
-    QString databaseError=model2->lastError().databaseText();
+    existujeLastError(model2);
+
+
+
+    slotVypisChybu(text+QString::number(pocet));
+}
+
+bool MainWindow::existujeLastError(QSqlQueryModel *model)
+{
+    QString driverError=model->query().lastError().driverText();
+    QString databaseError=model->lastError().databaseText();
 
     if((driverError!="")||(databaseError!=""))
     {
     qDebug()<<"chyba existuje:"<<driverError<<" "<<databaseError;
     emit signalSqlChyba(driverError+" "+databaseError);
+    return true;
     }
-
-    slotVypisChybu(text+QString::number(pocet));
+    return false;
 }
 
 
@@ -239,8 +265,11 @@ void MainWindow::startWorkInAThread()
 }
 
 
+void MainWindow::on_pushButton_vymazDB_clicked()
+{
+    XmlRopidImportStream *xmlRopidImportStream =  new XmlRopidImportStream();
 
-
-
-
+     ui->pushButton_start->setDisabled(true);
+    xmlRopidImportStream->truncateAll();
+}
 

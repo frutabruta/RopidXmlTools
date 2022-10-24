@@ -52,6 +52,10 @@ private slots:
      void on_pushButton_sql_clicked();
 
 
+     void on_pushButton_zastPlatnost_clicked();
+
+     void on_pushButton_vymazDB_clicked();
+
 private:
     Ui::MainWindow *ui;
     SqlDotazyModel sqlDotazyModel;
@@ -73,6 +77,7 @@ private:
     void startWorkInAThread();
 
     void spustDotazSpolecne(QSqlQueryModel *model2, QTableView *tableView, QString text);
+    bool existujeLastError(QSqlQueryModel *model);
 signals:
     void signalNactiSoubor(QString cesta);
     void signalSqlChyba(QString vstup);
