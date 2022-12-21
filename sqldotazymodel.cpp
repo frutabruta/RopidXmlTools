@@ -144,7 +144,7 @@ QSqlQueryModel* SqlDotazyModel::stahniSeznamVicenasobneSpoje()
     QSqlQueryModel *model = new QSqlQueryModel;
 
     QString queryString2="";
-    queryString2+="SELECT  COUNT(*),l, c ";
+    queryString2+="SELECT  COUNT(*),l, c, p, s.s ";
     queryString2+="FROM s ";
     queryString2+="GROUP BY l,c ";
     queryString2+="HAVING COUNT(*)>1 AND man=0 ";
