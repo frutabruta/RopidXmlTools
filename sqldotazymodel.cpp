@@ -144,7 +144,7 @@ QSqlQueryModel* SqlDotazyModel::stahniSeznamVicenasobneSpoje()
     QSqlQueryModel *model = new QSqlQueryModel;
 
     QString queryString2="";
-    queryString2+="SELECT  COUNT(*),l, c, p, s.s ";
+    queryString2+="SELECT  COUNT(*),l, c, p, GROUP_CONCAT(s.s) ";
     queryString2+="FROM s ";
     queryString2+="GROUP BY l,c ";
     queryString2+="HAVING COUNT(*)>1 AND man=0 ";
@@ -156,6 +156,7 @@ QSqlQueryModel* SqlDotazyModel::stahniSeznamVicenasobneSpoje()
     model->setHeaderData(0, Qt::Horizontal, tr("Počet"));
     model->setHeaderData(1, Qt::Horizontal, tr("l"));
     model->setHeaderData(2, Qt::Horizontal, tr("c"));
+    model->setHeaderData(4, Qt::Horizontal, tr("id spojů"));
 
     return model;
 
