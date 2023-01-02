@@ -6,7 +6,36 @@ SqlDotazyModel::SqlDotazyModel()
 }
 
 
+QSqlQueryModel* SqlDotazyModel::stahniSeznamCisCisloShoda()
+{
+    qDebug() <<  Q_FUNC_INFO;
 
+    pripoj();
+    QSqlQueryModel *model = new QSqlQueryModel;
+
+    QString queryString2="";
+    queryString2+="SELECT z.u, z.z, z.cis AS zcis, t.cis AS tcis, z.n ";
+    queryString2+="FROM z ";
+    queryString2+="LEFT JOIN t ON z.u=t.u AND z.z=t.z ";
+    queryString2+="WHERE z.cis<>t.cis ";
+
+
+    qDebug().noquote()<<queryString2;
+
+    model->setQuery(queryString2);
+    /*
+    model->setHeaderData(0, Qt::Horizontal, tr("uzel"));
+    model->setHeaderData(1, Qt::Horizontal, tr("sloupek"));
+    model->setHeaderData(2, Qt::Horizontal, tr("kj"));
+    model->setHeaderData(3, Qt::Horizontal, tr("název"));
+    model->setHeaderData(4, Qt::Horizontal, tr("číslo\nCIS"));
+    model->setHeaderData(5, Qt::Horizontal, tr("číslo\nOIS"));
+    */
+
+
+    return model;
+
+}
 
 QSqlQueryModel* SqlDotazyModel::stahniSeznamSpojuBezNacestnychNew()
 {

@@ -16,6 +16,7 @@ public:
     QSqlQueryModel *stahniSqlDotaz(QString dotaz);
 
 
+    QSqlQueryModel *stahniSeznamCisCisloShoda();
 signals:
     void signalSqlChyba(QString vstup);
 };

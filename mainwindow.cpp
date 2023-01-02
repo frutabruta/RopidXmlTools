@@ -124,6 +124,13 @@ void MainWindow::on_pushButton_poznamky_clicked()
     spustDotazSpolecne(sqlDotazyModel.stahniSeznamPoznamky(),ui->tableView_poznamky,"Počet spojů s poznámkami na celém spoji: ");
 }
 
+void MainWindow::on_pushButton_shodaCis_clicked()
+{
+    spustDotazSpolecne(sqlDotazyModel.stahniSeznamCisCisloShoda(),ui->tableView_shodaCis,"Počet neshod CIS čísla: ");
+
+}
+
+
 void MainWindow::on_pushButton_sql_clicked()
 {
 
@@ -146,6 +153,7 @@ void MainWindow::on_pushButton_vsechnyTesty_clicked()
     on_pushButton_poznamky_clicked();
     on_pushButton_bezCis_clicked();
     on_pushButton_zastPlatnost_clicked();
+    on_pushButton_shodaCis_clicked();
 }
 
 
@@ -272,4 +280,6 @@ void MainWindow::on_pushButton_vymazDB_clicked()
      ui->pushButton_start->setDisabled(true);
     xmlRopidImportStream->truncateAll();
 }
+
+
 

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>619</height>
+    <height>655</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,7 +24,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>7</number>
       </property>
       <widget class="QWidget" name="tab_load">
        <attribute name="title">
@@ -355,6 +355,30 @@ okno</string>
         </item>
         <item row="2" column="0">
          <widget class="QPushButton" name="pushButton_zastPlatnost">
+          <property name="text">
+           <string>Spustit</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_shodaCis">
+       <attribute name="title">
+        <string>shoda CIS</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <item>
+         <widget class="QLabel" name="label_9">
+          <property name="text">
+           <string>Výpis zastávek, kde se neshoduje číslo CIS u elementu Z a elementu T</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QTableView" name="tableView_shodaCis"/>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_shodaCis">
           <property name="text">
            <string>Spustit</string>
           </property>

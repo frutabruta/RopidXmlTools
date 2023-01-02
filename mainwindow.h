@@ -56,6 +56,8 @@ private slots:
 
      void on_pushButton_vymazDB_clicked();
 
+     void on_pushButton_shodaCis_clicked();
+
 private:
     Ui::MainWindow *ui;
     SqlDotazyModel sqlDotazyModel;
